@@ -1,0 +1,3 @@
+//6.1 
+- When user choose "cancel" then the result will be: You've chosen: No
+- 
