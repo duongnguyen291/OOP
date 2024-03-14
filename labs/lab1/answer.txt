@@ -1,3 +1,9 @@
 //6.1 
 - When user choose "cancel" then the result will be: You've chosen: No
-- 
+- I have written a new solution in ChoosingOptionSecond, or just modify "Yes","No" in line 12
+
+
+
+
+
+
