@@ -1,5 +1,5 @@
 package OOP.labs.lab1;
-
+//This is 2.2.5 in Homework
 import java.util.Scanner;
 
 public class Calculator{
