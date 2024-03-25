@@ -1,3 +1,4 @@
+package OOP.java;
 public class person{
     String name;
     int age;

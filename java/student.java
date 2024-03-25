@@ -1,3 +1,4 @@
+package OOP.java;
 public class student extends person{
     String major;
     public student(String name,int age, String adress, int id,double gpa,String major){

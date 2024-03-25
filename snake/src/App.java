@@ -1,3 +1,4 @@
+package OOP.snake.src;
 import javax.swing.*;
 
 public class App {

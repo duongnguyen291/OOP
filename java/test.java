@@ -1,3 +1,4 @@
+package OOP.java;
 public class test{
     public static void main(String[] args){
         person a = new person("Duong", 21, "40A ngo 62 Bao Linh",20225966,4.0);
