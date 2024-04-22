@@ -1,4 +1,4 @@
-package src;
+
 public class DigitalVideoDisc {
     private String title;
     private String category;
