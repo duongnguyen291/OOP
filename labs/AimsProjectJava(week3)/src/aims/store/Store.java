@@ -1,57 +1,49 @@
 package aims.store;
-import aims.disc.*;
-// import aims.cart.*;
+
+import aims.media.*;
+import java.util.ArrayList;
 
 public class Store {
-    public static final int MAX_NUMBERS_ORDERED = 1000;
-    DigitalVideoDisc itemsInStore[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+    private ArrayList<Media> itemsInStore = new ArrayList<>();
     private int qtyItem = 0;
-    public void addDVD(DigitalVideoDisc item){
-        int flag = -1;
-        for(int i = 0; i < MAX_NUMBERS_ORDERED ;i++){
-            if(itemsInStore[i].isMatchDVD(item)){
-                System.out.println("These is already have this item in Store");
+
+    public void addMedia(Media media) {
+        for (Media item : itemsInStore) {
+            if (item.isMatchItem(media)) {
+                System.out.println("This item is already in the store");
                 return;
-            }   
-            if(itemsInStore[i] == null){
-                //Flag if this location dont have any items
-                flag = i;
-            }   
-        }
-        if(flag != -1){
-            //Add new items
-            itemsInStore[flag] = item;
-            qtyItem++;
-        } 
-    }
-    public void removeDVD(DigitalVideoDisc item){
-        int check = 0;
-        for(int i = 0;i < MAX_NUMBERS_ORDERED;i++){
-            if(itemsInStore[i].isMatchDVD(item)){
-                check = 1;
-                itemsInStore[i] = null;
-                qtyItem--;
             }
         }
-        if(check == 0){
-            System.out.println("These is no item in Store");
+        itemsInStore.add(media);
+        qtyItem++;
+    }
+
+    public void removeMedia(Media media) {
+        boolean found = false;
+        for (int i = 0; i < itemsInStore.size(); i++) {
+            if (itemsInStore.get(i).isMatchItem(media)) {
+                itemsInStore.remove(i);
+                qtyItem--;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Item not found in store");
         }
     }
-    public void listItem (){
-        if(qtyItem <= 0){
-            System.out.println("These is zeros items in store");
-        }
-        else{
 
-            System.out.println("***********************STORE***********************");
+    public void listItem() {
+        if (qtyItem <= 0) {
+            System.out.println("There are no items in the store.");
+        } else {
+            System.out.println("*********************** STORE ***********************");
             System.out.println("Store");
             int cnt = 1;
-            for(int i = 0; i < MAX_NUMBERS_ORDERED; i++ ){
-            if(itemsInStore[i] != null){
-                itemsInStore[i].toString(cnt);
+            for (Media media : itemsInStore) {
+                media.toStringItem(cnt);
                 cnt++;
-                } 
             }
         }
     }
-}   
+}
