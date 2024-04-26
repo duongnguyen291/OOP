@@ -61,7 +61,7 @@ public class Aims {
         System.out.println("--------------------------------");
         System.out.println("1. Add media from store");
         System.out.println("2. Remove media from store");
-        System.out.println("3. Back");
+        System.out.println("0. Back");
 
         System.out.println("--------------------------------");
         System.out.println("Please choose a number: 0-1-2");
@@ -124,7 +124,7 @@ public class Aims {
         String title = scanner.nextLine();
         Media media = store.searchByTitle(title);
         if (media != null) {
-            System.out.println(media);
+            media.toStringItem(1);
             int choice;
             do {
                 mediaDetailsMenu();
@@ -186,6 +186,7 @@ public class Aims {
             System.out.println("1. CompactDisc");
             System.out.println("2. DigitalVideoDisc");
             System.out.println("3. Book");
+            System.out.println("0. Exit");
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -269,6 +270,8 @@ public class Aims {
                     }
                     break;
                 default:
+                    System.out.println("Invalid input. Please try again.");
+
                     break;
             }
         } while (choice != 0);
