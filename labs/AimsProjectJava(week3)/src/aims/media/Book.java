@@ -21,6 +21,11 @@ public class Book extends Media{
         this.token = token;
 
     }
+    public Book(String title, String category,String author, double cost, int token){
+        super(title,category, cost);
+        this.token = token;
+        this.listOfAuthors.add(author);
+    }
     public int getToken(){
         return token;
     }
@@ -55,4 +60,5 @@ public class Book extends Media{
         this.cost == item.cost && 
         this.token == item.token;
     }
+
 }

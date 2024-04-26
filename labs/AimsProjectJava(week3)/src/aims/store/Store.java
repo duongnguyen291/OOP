@@ -46,12 +46,21 @@ public class Store {
             }
         }
     }
-    public Media searchMedia(String title) {
+    public Media searchMedia(Media item) {
         for (Media media : itemsInStore) {
-            if (media.getTitle().equalsIgnoreCase(title)) {
+            if (media.isMatchItem(item)) {
                 return media;
             }
         }
         return null; 
     }
+    public Media searchByTitle(String title){
+        for (Media media : itemsInStore) {
+            if (media.getTitle().equalsIgnoreCase(title)) {
+                return media;
+            }
+        }
+        return null;
+    }
+    
 }

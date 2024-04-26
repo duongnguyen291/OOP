@@ -65,4 +65,5 @@ public class CompactDisc extends Disc implements Playable {
         this.length == item.length && 
         this.artist.equals(item.getArtist());
     }
+    
 }
