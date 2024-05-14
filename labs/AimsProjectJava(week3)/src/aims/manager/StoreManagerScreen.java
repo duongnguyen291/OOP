@@ -1,20 +1,11 @@
 package aims.manager;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.awt.Insets;
-
+import java.awt.*;
 import javax.swing.*;
-
 import aims.media.Media;
-import aims.store.*;;
+import aims.store.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class StoreManagerScreen extends JFrame {
     private Store store;
@@ -40,23 +31,71 @@ public class StoreManagerScreen extends JFrame {
 
     JPanel createNorth() {
         JPanel north = new JPanel();
-        north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
-        north.add(createMenuBar());
-        north.add(createHeader());
+        // north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
+        north.setLayout(new BorderLayout() );
+        north.add(createMenuBar(),BorderLayout.NORTH);
+        north.add(createHeader(),BorderLayout.CENTER);
         return north;
     }
 
     JMenuBar createMenuBar() {
         JMenu menu = new JMenu("Option");
-        menu.add(new JMenuItem("View store"));
+        JMenuItem viewStoreItem = new JMenuItem("View Store");
+        viewStoreItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Switch to View Store Screen
+                dispose();
+                new StoreManagerScreen(store);
+            }
+        });
+        menu.add(viewStoreItem);
+
         JMenu smUpdateStore = new JMenu("Update Store");
-        smUpdateStore.add(new JMenuItem("Add Book"));
-        smUpdateStore.add(new JMenuItem("Add CD"));
-        smUpdateStore.add(new JMenuItem("Add DVD"));
+        JMenuItem addBookItem = new JMenuItem("Add Book");
+        addBookItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Switch to Add Book Screen
+                dispose();
+                AddBookToStoreScreen temp = new AddBookToStoreScreen(store);
+                temp.display();
+
+            }
+        });
+        smUpdateStore.add(addBookItem);
+
+        JMenuItem addCDItem = new JMenuItem("Add CD");
+        addCDItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Switch to Add CD Screen
+                dispose();
+                AddCDToStoreScreen temp = new AddCDToStoreScreen(store);
+                temp.display();
+
+
+            }
+        });
+        smUpdateStore.add(addCDItem);
+
+        JMenuItem addDVDItem = new JMenuItem("Add DVD");
+        addDVDItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Switch to Add DVD Screen
+                dispose();
+                AddDVDToStoreScreen temp = new AddDVDToStoreScreen(store);
+                temp.display();
+
+            }
+        });
+        smUpdateStore.add(addDVDItem);
+
         menu.add(smUpdateStore);
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-        menuBar.add(menu);
+        menuBar.setLayout(new BorderLayout());
+        menuBar.add(menu,BorderLayout.WEST);
         return menuBar;
     }
 
@@ -77,28 +116,30 @@ public class StoreManagerScreen extends JFrame {
     JScrollPane createCenter() {
         JPanel center = new JPanel();
         center.setLayout(new GridBagLayout());
-
+        center.setBackground(new Color(171,219,227));
         ArrayList<Media> mediaInStore = store.getItemsInStore();
         if (!mediaInStore.isEmpty()) {
             int itemsToShow = mediaInStore.size();
             for (int i = 0; i < itemsToShow; i++) {
-              GridBagConstraints gbc = new GridBagConstraints();
+                GridBagConstraints gbc = new GridBagConstraints();
                 gbc.gridx = i % 3;
                 gbc.gridy = i / 3;
                 gbc.insets = new Insets(5, 5, 5, 5); // Khoảng cách giữa các ô
                 gbc.fill = GridBagConstraints.BOTH; // Ô đủ lớn để điền toàn bộ không gian
                 gbc.weightx = 1.0; // Chia đều không gian theo chiều ngang
                 gbc.weighty = 1.0; // Chia đều không gian theo chiều dọc
-
+    
                 MediaStore cell = new MediaStore(mediaInStore.get(i));
+                cell.setPreferredSize(new Dimension(320, 120)); // Cố định kích thước cell, ví dụ: rộng 200px và cao 100px
                 center.add(cell, gbc);
             }
         }
-
+    
         JScrollPane scrollPane = new JScrollPane(center);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
+    
         return scrollPane;
     }
+    
 }
