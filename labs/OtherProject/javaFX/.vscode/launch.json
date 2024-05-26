@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Painter",
+            "request": "launch",
+            "mainClass": "ict.Painter",
+            "projectName": "javaFX_6bad7279"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
