@@ -1,4 +1,5 @@
-package ict;
+package org.painter;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,9 +10,9 @@ public class Painter extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        Parent root = FXMLLoader.load(getClass().getResource("/Painter.fxml"));
-        Scene scene = new Scene(root);
+        FXMLLoader fxmlfile = new FXMLLoader(PainterController.class.getResource("Painter.fxml"));
+//      Parent root = FXMLLoader.load(getClass().getResource("org/painter/Painter.fxml"));
+        Scene scene = new Scene(fxmlfile.load());
         stage.setTitle("Painter");
         stage.setScene(scene);
         stage.show();
