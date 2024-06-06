@@ -1,16 +1,24 @@
 package ict.aimsprojectweek5.screen.customer.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import ict.aimsprojectweek5.cart.Cart;
 import ict.aimsprojectweek5.store.Store;
-import ict.aimsprojectweek5.media.Media;
+import ict.aimsprojectweek5.media.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import java.text.DecimalFormat;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.Optional;
+
+
 
 public class CartController {
     private Cart cart;
@@ -37,6 +45,14 @@ public class CartController {
     private ToggleGroup filterCategory;
 
     @FXML
+    private RadioButton radioBtnFilterId;
+
+    @FXML
+    private RadioButton radioBtnFilterTitle;
+
+    @FXML
+    private TextField tfFilter;
+    @FXML
     private Button btnPlay;
 
     @FXML
@@ -47,20 +63,66 @@ public class CartController {
 
     @FXML
     private TableColumn<Media, String> colMediaCategory;
+    @FXML
+    void btnPlaceOrderPressed(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Place order");
+        alert.setHeaderText("Are you sure want to place order?");
+        alert.setContentText("Total cost: " + roundTotalCost(cart.totalCost()) + " $");
 
+        // option != null.
+        Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == ButtonType.OK) {
+            cart.clear();
+            updateTotalCost();
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("Place order");
+            alert1.setHeaderText(null);
+            alert1.setContentText("Order placed successfully!");
+            alert1.showAndWait();
+        } else if (option.get() == ButtonType.CANCEL) {
+
+        } else {}
+
+    }
     @FXML
     void btnPlayPressed(ActionEvent event) {
         // Xử lý sự kiện khi nút "Play" được nhấn
+        Media media = tblMedia.getSelectionModel().getSelectedItem();
+        try {
+            ((Playable)media).play();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void btnRemovePressed(ActionEvent event) {
         // Xử lý sự kiện khi nút "Remove" được nhấn
+        Media media = tblMedia.getSelectionModel().getSelectedItem();
+        cart.removeMedia(media);
+        updateTotalCost();
     }
 
     @FXML
     void btnViewStorePressed(ActionEvent event) {
         // Xử lý sự kiện khi nút "View Store" được nhấn
+        try {
+            final String FXML_STORE_PATH = "/ict/aimsprojectweek5/screen/customer/view/Store.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_STORE_PATH));
+            fxmlLoader.setController(new ViewStoreController(store, cart));
+            Parent root = fxmlLoader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Store");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void initialize() {
@@ -71,5 +133,63 @@ public class CartController {
         if (cart.getItemsOrdered() != null) {
             tblMedia.setItems(cart.getItemsOrdered());
         }
+        btnPlay.setVisible(false);
+        btnRemove.setVisible(false);
+
+        tblMedia.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Media>() {
+            @Override
+            public void changed(ObservableValue<? extends Media> observableValue, Media oldValue, Media newValue) {
+                updateButtonBar(newValue);
+            }
+
+        });
+        tfFilter.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                showFilteredMedia(newValue);
+            }
+        });
+    }
+
+    void updateButtonBar(Media media) {
+        if(media == null) {
+            btnPlay.setVisible(false);
+            btnRemove.setVisible(false);
+        } else {
+            btnRemove.setVisible(true);
+            if(media instanceof Playable) {
+                btnPlay.setVisible(true);
+            } else {
+                btnPlay.setVisible(false);
+            }
+        }
+    }
+    void showFilteredMedia(String filter) {
+        if(filter == null || filter.isEmpty()) {
+            tblMedia.setItems(cart.getItemsOrdered());
+        } else {
+            if(radioBtnFilterId.isSelected()) {
+                try {
+                    tblMedia.setItems(cart.searchByID(Integer.parseInt(filter)));
+                } catch (NumberFormatException e) {
+                    tblMedia.setItems(null);
+                }
+            } else if(radioBtnFilterTitle.isSelected()) {
+                tblMedia.setItems(cart.searchByTitle(filter));
+            }
+        }
+    }
+
+    void updateTotalCost() {
+        costLabel.setText(roundTotalCost(cart.totalCost()) + " $");
+    }
+
+    String roundTotalCost(float totalCost) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(totalCost);
+
     }
 }
+
+
+

@@ -10,15 +10,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
-
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ViewStoreController {
     private Store store;
     private Cart cart;
 
-    public ViewStoreController(Store store) {
+    public ViewStoreController(Store store, Cart cart) {
         this.store = store;
+        this.cart = cart;
     }
 
     @FXML
@@ -27,6 +31,18 @@ public class ViewStoreController {
     @FXML
     void btnViewCartPressed(ActionEvent event) {
         // Implement the action to view the cart here
+        try {
+            final String FXML_CART_PATH = "/ict/aimsprojectweek5/screen/customer/view/Cart.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_CART_PATH));
+            fxmlLoader.setController(new CartController(cart, store));
+            Parent root = fxmlLoader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Cart");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

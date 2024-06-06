@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-
+import javafx.scene.control.Alert;
 public class ItemController {
 
     private Media media;
@@ -27,10 +27,6 @@ public class ItemController {
     @FXML
     private Label lblCost;
 
-    // Default constructor for JavaFX
-    public ItemController() {
-    }
-
     // Constructor with parameters
     public ItemController(Media media, Cart cart) {
         this.media = media;
@@ -39,12 +35,22 @@ public class ItemController {
 
     @FXML
     void btnAddToCartClicked(ActionEvent event) {
-        System.out.println("Hello");
+        Media media = this.media;
+        cart.addMedia(media);
     }
 
     @FXML
     void btnPlayClicked(ActionEvent event) {
-        System.out.println("Hello");
+        Media media = this.media;
+        try {
+            ((Playable)media).play();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     public void setData(Media media) {

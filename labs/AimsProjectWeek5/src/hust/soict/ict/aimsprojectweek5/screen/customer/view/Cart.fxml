@@ -19,7 +19,7 @@
                </font>
             </Label>
             <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#btnViewStorePressed" prefHeight="50.0" prefWidth="100.0" text="Button" />
+            <Button mnemonicParsing="false" onAction="#btnViewStorePressed" prefHeight="50.0" prefWidth="100.0" text="View Store" />
          </children>
       </HBox>
    </top>
@@ -32,13 +32,13 @@
                </padding>
                <children>
                   <Label text="Filter" />
-                  <TextField />
-                  <RadioButton mnemonicParsing="false" selected="true" text="By ID">
+                  <TextField fx:id="tfFilter" />
+                  <RadioButton fx:id="radioBtnFilterId" mnemonicParsing="false" selected="true" text="By ID">
                      <toggleGroup>
                         <ToggleGroup fx:id="filterCategory" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="By Title" toggleGroup="$filterCategory" />
+                  <RadioButton fx:id="radioBtnFilterTitle" mnemonicParsing="false" text="By Title" toggleGroup="$filterCategory" />
                </children>
             </HBox>
             <TableView fx:id="tblMedia" prefHeight="418.0" prefWidth="984.0">
@@ -57,8 +57,8 @@
                   <Insets top="10.0" />
                </padding>
                <children>
-                  <Button fx:id="btnPlay" maxWidth="60.0" mnemonicParsing="false" onAction="#btnPlayPressed" text="Play" />
-                  <Button fx:id="btnRemove" maxWidth="60.0" mnemonicParsing="false" onAction="#btnRemovePressed" text="Remove" />
+                  <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#btnPlayPressed" prefWidth="60.0" text="Play" />
+                  <Button fx:id="btnRemove" mnemonicParsing="false" onAction="#btnRemovePressed" text="Remove" />
                </children>
             </HBox>
          </children>
@@ -87,7 +87,7 @@
                   </Label>
                </children>
             </HBox>
-            <Button alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: #004cff;" text="Place Order" textFill="WHITE">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#btnPlaceOrderPressed" style="-fx-background-color: #004cff;" text="Place Order" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
