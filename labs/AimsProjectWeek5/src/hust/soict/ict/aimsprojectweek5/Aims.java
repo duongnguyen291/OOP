@@ -17,19 +17,19 @@ public class Aims extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        final String STORE_FXML_FILE_PATH = "/ict/aimsprojectweek5/screen/customer/view/Store.fxml";
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        System.out.println(Aims.class.getResource(STORE_FXML_FILE_PATH));
-//
-//        fxmlLoader.setLocation(Aims.class.getResource(STORE_FXML_FILE_PATH));
-//        ViewStoreController viewStoreController = new ViewStoreController(store, cart);
-//        fxmlLoader.setController(viewStoreController);
-//        Parent parent = fxmlLoader.load();
-//
-//        Scene scene = new Scene(parent);
-//        primaryStage.setScene(scene);
-//        primaryStage.setTitle("Store");
-//        primaryStage.show();
+        final String STORE_FXML_FILE_PATH = "/ict/aimsprojectweek5/screen/customer/view/Store.fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        System.out.println(Aims.class.getResource(STORE_FXML_FILE_PATH));
+
+        fxmlLoader.setLocation(Aims.class.getResource(STORE_FXML_FILE_PATH));
+        ViewStoreController viewStoreController = new ViewStoreController(store, cart);
+        fxmlLoader.setController(viewStoreController);
+        Parent parent = fxmlLoader.load();
+
+        Scene scene = new Scene(parent);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Store");
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

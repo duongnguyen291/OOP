@@ -34,8 +34,8 @@ public class TestViewStoreCart extends Application {
     public static void main(String[] args) {
         store = new Store();
         store.initData();
-//        cart = new Cart();
-//        cart.initData();
+        cart = new Cart();
+        cart.initData();
         launch(args);
     }
 }

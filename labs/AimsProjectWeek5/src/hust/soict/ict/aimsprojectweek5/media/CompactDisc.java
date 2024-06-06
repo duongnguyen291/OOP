@@ -1,7 +1,9 @@
 package ict.aimsprojectweek5.media;
-
+import ict.aimsprojectweek5.Exception.PlayerException;
 import java.util.ArrayList;
-
+import javafx.scene.control.Alert;
+import ict.aimsprojectweek5.media.*;
+import java.util.List;
 public class CompactDisc extends Disc implements Playable {
     private String artist;
     private ArrayList <Track> trackList = new ArrayList<>();
@@ -17,32 +19,36 @@ public class CompactDisc extends Disc implements Playable {
     public String getArtist(){
         return artist;
     }
-    public void play(){
-        System.out.println("=======START PLAY TRACKS LIST=======");
-        for(Track track: trackList){
-            track.play();
-        }
-    }
+
     public void addTrack(Track musicSongInput){
-        for(Track musicSong : trackList){
-            if(musicSong.isMatch(musicSongInput)){
-                System.out.println("This track is already in the CD");
-                return;
+        try{
+            for(Track musicSong : trackList){
+                if(musicSong.isMatch(musicSongInput)){
+                    throw new Exception("This track is already in the CD");
+                }
             }
+            trackList.add(musicSongInput);
+            numberOfSong++;
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }
-        trackList.add(musicSongInput); 
-        numberOfSong++;
+
 
     }
     public void removeTrack(Track musicSongInput){
-        for(int i = 0; i < trackList.size(); i++){
-            if(trackList.get(i).isMatch(musicSongInput)){
-                trackList.remove(i);
-                numberOfSong--;
-                return;
+        try{
+            for(int i = 0; i < trackList.size(); i++){
+                if(trackList.get(i).isMatch(musicSongInput)){
+                    trackList.remove(i);
+                    numberOfSong--;
+                    return;
+                }
             }
+            throw new Exception("Track not found in TrackList");
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }
-        System.out.println("Track not found in TrackList");
+
            
     }
     public int getLength(){
@@ -69,5 +75,31 @@ public class CompactDisc extends Disc implements Playable {
         this.length == item.length && 
         this.artist.equals(item.getArtist());
     }
-    
+    public void play() throws PlayerException {
+        try {
+            if(this.getLength() > 0) {
+                java.util.Iterator iter = trackList.iterator();
+                Track nextTrack;
+                while (iter.hasNext()) {
+                    nextTrack = (Track) iter.next();
+                    try {
+                        nextTrack.play();
+                    } catch (PlayerException e) {
+                        throw e;
+
+                    }
+                }
+
+            } else {
+                throw new PlayerException("ERROR: CD length is non-positive!");
+            }
+        } catch (PlayerException e) {
+            System.err.println(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
 }

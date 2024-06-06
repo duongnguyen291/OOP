@@ -35,23 +35,42 @@ public class Book extends Media{
         System.out.println(order + ".Book - " +  this.getTitle()+ " - " + this.getCategory()  + " - " + this.getToken() + " - " + this.getCost() + " $");
     }
     public void addAuthor(String authorInput){
-        for(String author : listOfAuthors){
-            if(author.equals(authorInput)){
-                System.out.println("This author is already in the list");
-                return;
+        try {
+            if(listOfAuthors.size() < 5) {
+                for (String author : listOfAuthors) {
+                    if (author.equals(authorInput)) {
+                        System.out.println("This author is already in the list");
+                        return;
+                    }
+                }
+                listOfAuthors.add(authorInput);
             }
+            else{
+                throw new Exception("Authors has reach its limit");
+            }
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }
-        listOfAuthors.add(authorInput); 
+
     }
     public void removeAuthor(String authorInput){
-        for(int i = 0; i < listOfAuthors.size(); i++){
-            if(listOfAuthors.get(i).equals(authorInput)){
-                listOfAuthors.remove(i);
-                return;
-            }
-        }
+
         System.out.println("Song not found in TrackList");
-            
+        try {
+            if (listOfAuthors.isEmpty()) {
+                throw new Exception("Authors list is empty");
+            }
+            else if (listOfAuthors.contains(authorInput)) {
+                listOfAuthors.remove(authorInput);
+                System.out.println("Author removed");
+            }
+            else {
+                throw new Exception("Author not found");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
     }
     public boolean isMatchItem(Book item){
         return this.id == item.id &&

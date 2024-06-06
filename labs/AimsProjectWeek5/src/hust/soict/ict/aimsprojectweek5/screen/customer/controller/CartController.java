@@ -133,6 +133,7 @@ public class CartController {
         if (cart.getItemsOrdered() != null) {
             tblMedia.setItems(cart.getItemsOrdered());
         }
+        costLabel.setText(roundTotalCost(cart.totalCost()) + " $");
         btnPlay.setVisible(false);
         btnRemove.setVisible(false);
 
@@ -181,6 +182,7 @@ public class CartController {
     }
 
     void updateTotalCost() {
+
         costLabel.setText(roundTotalCost(cart.totalCost()) + " $");
     }
 

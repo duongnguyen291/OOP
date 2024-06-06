@@ -60,7 +60,7 @@ public class Cart {
         addMedia(cd5);
     }
 
-    public void addMedia(Media media) {
+    public void addMedia(Media media)  {
         try {
             if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {
                 for (Media media1 : itemsOrdered) {

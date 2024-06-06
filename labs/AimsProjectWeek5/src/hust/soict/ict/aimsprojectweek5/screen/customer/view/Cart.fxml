@@ -80,7 +80,7 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="costLabel" text="0$">
+                  <Label fx:id="costLabel" text="0 $">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>

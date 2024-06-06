@@ -45,16 +45,18 @@ package ict.aimsprojectweek5.media;
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Media media = (Media) o;
-            return title.equals(media.title);
+            return title.equals(media.title) && Float.compare(media.cost, cost) == 0;
         }
         @Override
         public int compareTo(Media other) {
-            // Sắp xếp theo tiêu đề sau đó giá
-            int result = this.title.compareTo(other.title);
-            if (result == 0) {
-                result = Float.compare(other.cost, this.cost);
+            if (other == null) {
+                throw new NullPointerException("The compared media is null");
             }
-            return result;
+            int titleComparison = this.title.compareTo(other.title);
+            if (titleComparison != 0) {
+                return titleComparison;
+            }
+            return Float.compare(this.cost, other.cost);
         }
     
         // Comparator để sắp xếp theo giá sau đó tiêu đề
